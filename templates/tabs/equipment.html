@@ -9,7 +9,7 @@
         </a>
       </div>
     </li>
-    {{#each actor.equipment as |item id|}}
+    {{#each actor.system.equipment as |item id|}}
     <li class="item resource-content flexrow {{#if archived}}archived{{/if}}" data-item-id="{{item._id}}">
       <h4 class="item-name">
         <a class="item-control item-description" title="{{localize 'CYPHERSYSTEM.ShowDescription'}}">
@@ -21,7 +21,7 @@
         <a class="item-control minus-one {{#if ../isObserver}}disabled{{/if}}" title="{{localize 'CYPHERSYSTEM.SubtractQuantity'}}">
           <i class="far fa-minus-square"></i>
         </a>
-        <p class="number">&nbsp;{{quantity}}&nbsp;</p>
+        <p class="number">&nbsp;{{item.system.quantity}}&nbsp;</p>
         <a class="item-control plus-one {{#if ../isObserver}}disabled{{/if}}" title="{{localize 'CYPHERSYSTEM.AddQuantity'}}">
           <i class="far fa-plus-square"></i>
         </a>
@@ -40,7 +40,7 @@
     <li class="item-desc flexrow {{#if archived}}archived{{/if}}">
       <div class="description desc-{{item._id}}">
         <img class="description-image {{#if archived}}archived-image{{/if}}" src="{{item.img}}" width="50" height="50" />
-        {{{enrichHTML description}}}
+        {{{enrichHTML item.system.description}}}
       </div>
     </li>
     {{/if}}

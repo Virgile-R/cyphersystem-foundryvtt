@@ -35,9 +35,9 @@
         <div class="centered-fields">
           <div class="resource-content flexrow flex-center">
             {{#if (eq settings.gameMode.currentSheet "Teen")}}
-            <input name="teen.basic.name" type="text" value="{{teen.basic.name}}" placeholder="{{localize 'CYPHERSYSTEM.Name'}}" />
+            <input name="system.teen.basic.name" type="text" value="{{teen.basic.name}}" placeholder="{{localize 'CYPHERSYSTEM.Name'}}" />
             {{else}}
-            <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'CYPHERSYSTEM.Name'}}" />
+            <input name="system.name" type="text" value="{{actor.name}}" placeholder="{{localize 'CYPHERSYSTEM.Name'}}" />
             {{/if}}
             {{#if (eq settings.gameMode.current "Unmasked")}}
             &nbsp;
@@ -54,7 +54,7 @@
             <label class="label-basic-info {{#if isObserver}}disabled{{/if}}">
               {{localize 'CYPHERSYSTEM.Tier'}}
             </label>
-            <input style="flex:0 0 30px" type="text" name="basic.tier" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{basic.tier}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
+            <input style="flex:0 0 30px" type="text" name="system.basic.tier" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{basic.tier}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
             {{/unless}}
           </div>
           <div class="resource-content flexrow flex-center">
@@ -66,19 +66,19 @@
               {{/if}}
             </label>
             {{#if (eq settings.gameMode.currentSheet "Teen")}}
-            <input name="teen.basic.descriptor" type="text" value="{{teen.basic.descriptor}}" data-dtype="String" placeholder="{{localize 'CYPHERSYSTEM.Descriptor'}}" />
+            <input name="system.teen.basic.descriptor" type="text" value="{{teen.basic.descriptor}}" data-dtype="String" placeholder="{{localize 'CYPHERSYSTEM.Descriptor'}}" />
             {{else}}
-            <input name="basic.descriptor" type="text" value="{{basic.descriptor}}" data-dtype="String" placeholder="{{localize 'CYPHERSYSTEM.Descriptor'}}" />
+            <input name="system.basic.descriptor" type="text" value="{{basic.descriptor}}" data-dtype="String" placeholder="{{localize 'CYPHERSYSTEM.Descriptor'}}" />
             {{/if}}
             {{#unless (eq settings.gameMode.currentSheet "Teen")}}
             &nbsp;
-            <input name="basic.type" type="text" value="{{basic.type}}" data-dtype="String" placeholder="{{localize 'CYPHERSYSTEM.Type'}}" />
+            <input name="system.basic.type" type="text" value="{{basic.type}}" data-dtype="String" placeholder="{{localize 'CYPHERSYSTEM.Type'}}" />
             {{/unless}}
             {{#unless isLimited}}
             <label class="label-basic-info {{#if isObserver}}disabled{{/if}}">
               {{localize 'CYPHERSYSTEM.Effort'}}
             </label>
-            <input style="flex:0 0 30px" type="text" name="basic.effort" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{basic.effort}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
+            <input style="flex:0 0 30px" type="text" name="system.basic.effort" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{basic.effort}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
             {{/unless}}
           </div>
           <div class="resource-content flexrow flex-center">
@@ -88,17 +88,17 @@
             <label class="{{#if isObserver}}disabled{{/if}}" style="flex: 0 0 55px;">
               {{localize 'CYPHERSYSTEM.Who'}}
             </label>
-            <input name="basic.focus" type="text" value="{{basic.focus}}" data-dtype="String" placeholder="{{localize 'CYPHERSYSTEM.Focus'}}" />
+            <input name="system.basic.focus" type="text" value="{{basic.focus}}" data-dtype="String" placeholder="{{localize 'CYPHERSYSTEM.Focus'}}" />
             {{#if settings.additionalSentence.active}}
             &nbsp;
-            <input name="basic.additionalSentence" type="text" value="{{basic.additionalSentence}}" data-dtype="String" placeholder="{{#if (eq settings.additionalSentence.name '')}}{{#if (eq settings.gameMode.current 'Strange')}}{{localize 'CYPHERSYSTEM.Recursion'}}{{else}}{{localize 'CYPHERSYSTEM.AdditionalSentence'}}{{/if}}{{else}}{{settings.additionalSentence.name}}{{/if}}" />
+            <input name="system.basic.additionalSentence" type="text" value="{{basic.additionalSentence}}" data-dtype="String" placeholder="{{#if (eq settings.additionalSentence.name '')}}{{#if (eq settings.gameMode.current 'Strange')}}{{localize 'CYPHERSYSTEM.Recursion'}}{{else}}{{localize 'CYPHERSYSTEM.AdditionalSentence'}}{{/if}}{{else}}{{settings.additionalSentence.name}}{{/if}}" />
             {{/if}}
             {{/if}}
             {{#unless isLimited}}
             <label class="label-basic-info {{#if isObserver}}disabled{{/if}}">
               {{localize 'CYPHERSYSTEM.XP'}}
             </label>
-            <input style="flex:0 0 30px" type="text" name="basic.xp" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{basic.xp}}{{/if}}" data-dtype="Number" />
+            <input style="flex:0 0 30px" type="text" name="system.basic.xp" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{basic.xp}}{{/if}}" data-dtype="Number" />
             {{/unless}}
           </div>
 
@@ -145,13 +145,13 @@
           </div>
           <div class="resource-content flexrow flex-center stat-pool {{#if (or isLimited isObserver)}}disabled{{/if}}">
             {{#if (eq settings.gameMode.currentSheet "Teen")}}
-            <input class="stat-input" type="text" name="teen.pools.might.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.might.value}}{{/if}}" data-dtype="Number" />
+            <input class="stat-input" type="text" name="system.teen.pools.might.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.might.value}}{{/if}}" data-dtype="Number" />
             &nbsp;{{slashForFractions}}&nbsp;
-            <input class="stat-input" type="text" name="teen.pools.might.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.might.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
+            <input class="stat-input" type="text" name="system.teen.pools.might.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.might.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
             {{else}}
-            <input class="stat-input" type="text" name="pools.might.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.might.value}}{{/if}}" data-dtype="Number" />
+            <input class="stat-input" type="text" name="system.pools.might.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.might.value}}{{/if}}" data-dtype="Number" />
             &nbsp;{{slashForFractions}}&nbsp;
-            <input class="stat-input" type="text" name="pools.might.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.might.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
+            <input class="stat-input" type="text" name="system.pools.might.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.might.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
             {{/if}}
           </div>
           <hr class="hr-pool">
@@ -194,13 +194,13 @@
           </div>
           <div class="resource-content flexrow flex-center flex-between stat-pool {{#if (or isLimited isObserver)}}disabled{{/if}}">
             {{#if (eq settings.gameMode.currentSheet "Teen")}}
-            <input class="stat-input" type="text" name="teen.pools.speed.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.speed.value}}{{/if}}" data-dtype="Number" />
+            <input class="stat-input" type="text" name="system.teen.pools.speed.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.speed.value}}{{/if}}" data-dtype="Number" />
             &nbsp;{{slashForFractions}}&nbsp;
-            <input class="stat-input" type="text" name="teen.pools.speed.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.speed.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
+            <input class="stat-input" type="text" name="system.teen.pools.speed.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.speed.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
             {{else}}
-            <input class="stat-input" type="text" name="pools.speed.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.speed.value}}{{/if}}" data-dtype="Number" />
+            <input class="stat-input" type="text" name="system.pools.speed.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.speed.value}}{{/if}}" data-dtype="Number" />
             &nbsp;{{slashForFractions}}&nbsp;
-            <input class="stat-input" type="text" name="pools.speed.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.speed.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
+            <input class="stat-input" type="text" name="system.pools.speed.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.speed.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
             {{/if}}
           </div>
           <hr class="hr-pool">
@@ -243,13 +243,13 @@
           </div>
           <div class="resource-content flexrow flex-center flex-between stat-pool {{#if (or isLimited isObserver)}}disabled{{/if}}">
             {{#if (eq settings.gameMode.currentSheet "Teen")}}
-            <input class="stat-input" type="text" name="teen.pools.intellect.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.intellect.value}}{{/if}}" data-dtype="Number" />
+            <input class="stat-input" type="text" name="system.teen.pools.intellect.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.intellect.value}}{{/if}}" data-dtype="Number" />
             &nbsp;{{slashForFractions}}&nbsp;
-            <input class="stat-input" type="text" name="teen.pools.intellect.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.intellect.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
+            <input class="stat-input" type="text" name="system.teen.pools.intellect.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.intellect.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
             {{else}}
-            <input class="stat-input" type="text" name="pools.intellect.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.intellect.value}}{{/if}}" data-dtype="Number" />
+            <input class="stat-input" type="text" name="system.pools.intellect.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.intellect.value}}{{/if}}" data-dtype="Number" />
             &nbsp;{{slashForFractions}}&nbsp;
-            <input class="stat-input" type="text" name="pools.intellect.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.intellect.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
+            <input class="stat-input" type="text" name="system.pools.intellect.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.intellect.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />
             {{/if}}
           </div>
           <hr class="hr-pool">
@@ -289,9 +289,9 @@
           </label>
           <div class="stat-roll-button"></div>
           <div class="resource-content flexrow flex-center flex-between stat-pool {{#if (or isLimited isObserver)}}disabled{{/if}}">
-            <input class="stat-input" type="text" name="teen.pools.additional.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.additional.value}}{{/if}}" data-dtype="Number" />
+            <input class="stat-input" type="text" name="system.teen.pools.additional.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.additional.value}}{{/if}}" data-dtype="Number" />
             &nbsp;{{slashForFractions}}&nbsp;
-            <input class="stat-input" type="text" name="teen.pools.additional.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.additional.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />&nbsp;
+            <input class="stat-input" type="text" name="system.teen.pools.additional.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{teen.pools.additional.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />&nbsp;
           </div>
           <hr class="hr-pool">
           <div class="resource-content flexrow flex-center">
@@ -321,9 +321,9 @@
           </label>
           <div class="stat-roll-button"></div>
           <div class="resource-content flexrow flex-center flex-between stat-pool {{#if (or isLimited isObserver)}}disabled{{/if}}">
-            <input class="stat-input" type="text" name="pools.additional.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.additional.value}}{{/if}}" data-dtype="Number" />
+            <input class="stat-input" type="text" name="system.pools.additional.value" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.additional.value}}{{/if}}" data-dtype="Number" />
             &nbsp;{{slashForFractions}}&nbsp;
-            <input class="stat-input" type="text" name="pools.additional.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.additional.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />&nbsp;
+            <input class="stat-input" type="text" name="system.pools.additional.max" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{pools.additional.max}}{{/if}}" data-dtype="Number" {{disabledStaticStats}} />&nbsp;
           </div>
           <hr class="hr-pool">
           <div class="resource-content flexrow flex-center">
@@ -372,12 +372,12 @@
 
     {{!-- Biography Tab --}}
     <div class="tab biography" data-group="primary" data-tab="notes">
-      {{editor content=basic.notes target="basic.notes" button=true owner=owner editable=true}}
+      {{editor content=basic.notes target="system.basic.notes" button=true owner=owner editable=true}}
     </div>
 
     {{!-- Description Tab --}}
     <div class="tab biography" data-group="primary" data-tab="description">
-      {{editor content=basic.description target="basic.description" button=true owner=owner editable=true}}
+      {{editor content=basic.description target="system.basic.description" button=true owner=owner editable=true}}
     </div>
 
     {{!-- Owned Skills Tab --}}
@@ -496,7 +496,7 @@
               </a>
             </div>
           </li>
-          {{#each actor.powerShifts as |item id|}}
+          {{#each actor.system.powerShifts as |item id|}}
           <li class="item flexrow {{#if archived}}archived{{/if}}" data-item-id="{{item._id}}">
             <h4 class="item-name">
               <a class="item-control item-description" title="{{localize 'CYPHERSYSTEM.ShowDescription'}}">
@@ -696,7 +696,7 @@
             </div>
           </li>
           {{#if (eq settings.gameMode.currentSheet "Teen")}}
-          {{#each actor.teenLastingDamage as |item id|}}
+          {{#each actor.system.teenLastingDamage as |item id|}}
           <li class="item flexrow {{#if archived}}archived{{/if}}" data-item-id="{{item._id}}">
             <h4 class="item-name">
               <a class="item-control item-description" title="{{localize 'CYPHERSYSTEM.ShowDescription'}}">
@@ -750,7 +750,7 @@
           {{/if}}
           {{/each}}
           {{else}}
-          {{#each actor.lastingDamage as |item id|}}
+          {{#each actor.system.lastingDamage as |item id|}}
           <li class="item flexrow {{#if archived}}archived{{/if}}" data-item-id="{{item._id}}">
             <h4 class="item-name">
               <a class="item-control item-description" title="{{localize 'CYPHERSYSTEM.ShowDescription'}}">

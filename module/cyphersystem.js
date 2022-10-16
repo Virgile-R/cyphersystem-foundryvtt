@@ -211,17 +211,17 @@ Hooks.once("ready", async function () {
 
   // Update existing characters
   for (let a of game.actors.contents) {
-    if (!a.data.data.settings.equipment.cyphersName) a.update({ "data.settings.equipment.cyphersName": "" });
-    if (!a.data.data.settings.equipment.artifactsName) a.update({ "data.settings.equipment.artifactsName": "" });
-    if (!a.data.data.settings.equipment.odditiesName) a.update({ "data.settings.equipment.odditiesName": "" });
-    if (!a.data.data.settings.equipment.materialName) a.update({ "data.settings.equipment.materialName": "" });
-    if (a.data.type === "PC" && !a.data.data.settings.equipment.cyphers) a.update({ "data.settings.equipment.cyphers": true });
-    if (a.data.type === "Token" && (a.data.data.settings.counting == "Down" || !a.data.data.settings.counting)) a.update({ "data.settings.counting": -1 });
-    if (a.data.type === "Token" && a.data.data.settings.counting == "Up") a.update({ "data.settings.counting": 1 });
+    if (!a.system.settings.equipment.cyphersName) a.update({ "data.settings.equipment.cyphersName": "" });
+    if (!a.system.settings.equipment.artifactsName) a.update({ "data.settings.equipment.artifactsName": "" });
+    if (!a.system.settings.equipment.odditiesName) a.update({ "data.settings.equipment.odditiesName": "" });
+    if (!a.system.settings.equipment.materialName) a.update({ "data.settings.equipment.materialName": "" });
+    if (a.data.type === "PC" && !a.system.settings.equipment.cyphers) a.update({ "data.settings.equipment.cyphers": true });
+    if (a.data.type === "Token" && (a.system.settings.counting == "Down" || !a.system.settings.counting)) a.update({ "data.settings.counting": -1 });
+    if (a.data.type === "Token" && a.system.settings.counting == "Up") a.update({ "data.settings.counting": 1 });
     if (a.data.type === "PC") {
-      if (a.data.data.settings.additionalRecoveries.active) {
+      if (a.system.settings.additionalRecoveries.active) {
         a.update({
-          "data.settings.additionalRecoveries.numberOneActionRecoveries": parseInt(a.data.data.settings.additionalRecoveries.howManyRecoveries) + 1,
+          "data.settings.additionalRecoveries.numberOneActionRecoveries": parseInt(a.system.settings.additionalRecoveries.howManyRecoveries) + 1,
           "data.settings.additionalRecoveries.active": false
         })
       }
@@ -238,7 +238,7 @@ Hooks.on("preCreateItem", function (item) {
 });
 
 Hooks.on("updateItem", function (item) {
-  let description = item.data.data.description.replace("<p></p>", "");
+  let description = item.system.description.replace("<p></p>", "");
   item.data.update({ "data.description": description });
 });
 
@@ -310,12 +310,12 @@ Hooks.on("renderChatMessage", function (message, html, data) {
   // Event Listener for accepting intrusions
   html.find('.accept-intrusion').click(clickEvent => {
     let actor = game.actors.get(html.find('.accept-intrusion').data('actor'));
-    if (game.user.data.character != actor.data._id) return ui.notifications.warn(game.i18n.format("CYPHERSYSTEM.IntrusionWrongPlayer", { actor: actor.data.name }));
+    if (game.user.data.character != actor._id) return ui.notifications.warn(game.i18n.format("CYPHERSYSTEM.IntrusionWrongPlayer", { actor: actor.name }));
 
     // Create list of PCs
     let list = "";
     for (let actor of game.actors.contents) {
-      if (actor.data.type === "PC" && actor.data._id != html.find('.accept-intrusion').data('actor')) list = list + `<option value=${actor.data._id}>${actor.data.name}</option>`;
+      if (actor.type === "PC" && actor._id != html.find('.accept-intrusion').data('actor')) list = list + `<option value=${actor.data._id}>${actor.name}</option>`;
     }
 
     // Create dialog content
@@ -347,7 +347,7 @@ Hooks.on("renderChatMessage", function (message, html, data) {
   // Event Listener for refusing intrusions
   html.find('.refuse-intrusion').click(clickEvent => {
     let actor = game.actors.get(html.find('.refuse-intrusion').data('actor'));
-    if (game.user.data.character != actor.data._id) return ui.notifications.warn(game.i18n.format("CYPHERSYSTEM.IntrusionWrongPlayer", { actor: actor.data.name }));
+    if (game.user.data.character != actor.data._id) return ui.notifications.warn(game.i18n.format("CYPHERSYSTEM.IntrusionWrongPlayer", { actor: actor.name }));
     applyXPFromIntrusion(actor, "", data.message._id, -1)
   });
 });
@@ -409,7 +409,8 @@ Hooks.once("dragRuler.ready", (SpeedProvider) => {
 * Set default values for new actors' tokens
 */
 Hooks.on("preCreateActor", function (actor) {
-  if (actor.data.type == "NPC") {
+  console.log('actor.data', actor.data)
+  if (actor.type == "NPC") {
     actor.data.update({
       "token.bar1": { "attribute": "health" },
       "token.bar2": { "attribute": "level" },
@@ -453,7 +454,7 @@ Hooks.on("preCreateToken", function (document, data) {
   let actor = game.actors.get(data.actorId);
 
   // Support for Drag Ruler
-  if (actor.data.type !== "Token" && actor.data.type !== "Community") {
+  if (actor.system.type !== "Token" && actor.system.type !== "Community") {
     document.data.update({ "flags.cyphersystem.toggleDragRuler": true })
   } else {
     document.data.update({ "flags.cyphersystem.toggleDragRuler": false })
@@ -475,9 +476,9 @@ Hooks.on("updateCombat", function () {
   if (game.user.isGM) {
     let combatant = (game.combat.combatant) ? game.combat.combatant.actor : "";
 
-    if (combatant.type == "Token" && combatant.data.data.settings.isCounter == true) {
-      let step = (!combatant.data.data.settings.counting) ? -1 : combatant.data.data.settings.counting;
-      let newQuantity = combatant.data.data.quantity.value + step;
+    if (combatant.type == "Token" && combatant.system.settings.isCounter == true) {
+      let step = (!combatant.system.settings.counting) ? -1 : combatant.system.settings.counting;
+      let newQuantity = combatant.system.quantity.value + step;
       combatant.update({ "data.quantity.value": newQuantity });
     }
   }
@@ -485,16 +486,16 @@ Hooks.on("updateCombat", function () {
 
 Hooks.on("createCombatant", function (combatant) {
   if (game.user.isGM) {
-    let actor = combatant.actor.data;
+    let actor = combatant.actor.system;
 
     if (actor.type == "NPC") {
-      combatant.update({ "initiative": (actor.data.level * 3) + actor.data.settings.initiative.initiativeBonus - 0.5 });
+      combatant.update({ "initiative": (actor.system.level * 3) + actor.system.settings.initiative.initiativeBonus - 0.5 });
     } else if (actor.type == "Community" && !combatant.hasPlayerOwner) {
-      combatant.update({ "initiative": (actor.data.rank * 3) + actor.data.settings.initiative.initiativeBonus - 0.5 });
+      combatant.update({ "initiative": (actor.system.rank * 3) + actor.system.settings.initiative.initiativeBonus - 0.5 });
     } else if (actor.type == "Community" && combatant.hasPlayerOwner) {
-      combatant.update({ "initiative": (actor.data.rank * 3) + actor.data.settings.initiative.initiativeBonus });
+      combatant.update({ "initiative": (actor.system.rank * 3) + actor.system.settings.initiative.initiativeBonus });
     } else if (actor.type == "Vehicle") {
-      combatant.update({ "initiative": (actor.data.level * 3) - 0.5 });
+      combatant.update({ "initiative": (actor.sytem.level * 3) - 0.5 });
     }
   }
 });

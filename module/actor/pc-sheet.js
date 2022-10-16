@@ -98,19 +98,17 @@ export class CypherActorSheetPC extends CypherActorSheet {
     let speedCostTotal = 0;
     let teenArmorTotal = 0;
     let teenSpeedCostTotal = 0;
-    actorData.armor.pieces = []
-    if (actorData.armor.pieces.length > 0) {
-      for (let piece of actorData.armor.pieces) {
+    if (actorData.armor.length > 0) {
+      for (let piece of actorData.armor) {
         if (piece.data?.armorActive === true && piece?.data?.archived === false) {
           armorTotal = armorTotal + piece.data.armorValue;
           speedCostTotal = speedCostTotal + piece.data.speedCost;
         }
       }
     }
-    actorData.teen.armor.pieces = []
-    if (actorData.teen.armor.pieces.length > 0) {
+    if (actorData.teen.armor.length > 0) {
 
-      for (let piece of actorData.teen.armor.pieces) {
+      for (let piece of actorData.teen.armor) {
         if (piece.data.armorActive === true && piece.data.archived === false) {
           teenArmorTotal = teenArmorTotal + piece.data.armorValue;
           teenSpeedCostTotal = teenSpeedCostTotal + piece.data.speedCost;
@@ -170,22 +168,22 @@ export class CypherActorSheetPC extends CypherActorSheet {
 
     // Apply damage track to rolls
     html.find('.apply-impaired').click(clickEvent => {
-      let newValue = (this.actor.data.data.damage.applyImpaired) ? false : true;
+      let newValue = (this.actor.system.damage.applyImpaired) ? false : true;
       this.actor.update({ "data.damage.applyImpaired": newValue });
     });
 
     html.find('.apply-debilitated').click(clickEvent => {
-      let newValue = (this.actor.data.data.damage.applyDebilitated) ? false : true;
+      let newValue = (this.actor.system.damage.applyDebilitated) ? false : true;
       this.actor.update({ "data.damage.applyDebilitated": newValue });
     });
 
     html.find('.apply-impaired-teen').click(clickEvent => {
-      let newValue = (this.actor.data.data.teen.damage.applyImpaired) ? false : true;
+      let newValue = (this.actor.system.teen.damage.applyImpaired) ? false : true;
       this.actor.update({ "data.teen.damage.applyImpaired": newValue });
     });
 
     html.find('.apply-debilitated-teen').click(clickEvent => {
-      let newValue = (this.actor.data.data.teen.damage.applyDebilitated) ? false : true;
+      let newValue = (this.actor.system.teen.damage.applyDebilitated) ? false : true;
       this.actor.update({ "data.teen.damage.applyDebilitated": newValue });
     });
 
@@ -195,14 +193,14 @@ export class CypherActorSheetPC extends CypherActorSheet {
     // Increase Might
     html.find('.increase-might').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.pools.might.value + amount;
+      let newValue = this.actor.system.pools.might.value + amount;
       this.actor.update({ "data.pools.might.value": newValue });
     });
 
     // Decrease Might
     html.find('.decrease-might').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.pools.might.value - amount;
+      let newValue = this.actor.system.pools.might.value - amount;
       this.actor.update({ "data.pools.might.value": newValue });
     });
 
@@ -210,26 +208,26 @@ export class CypherActorSheetPC extends CypherActorSheet {
     html.find('.reset-might').click(clickEvent => {
       let lastingDamage = 0;
       for (let item of this.actor.items) {
-        if (item.data.type == "lasting Damage" && item.data.data.lastingDamagePool == "Might" && !item.data.data.archived) {
-          lastingDamage = lastingDamage + item.data.data.lastingDamageAmount
+        if (item.system.type == "lasting Damage" && item.system.lastingDamagePool == "Might" && !item.system.archived) {
+          lastingDamage = lastingDamage + item.system.lastingDamageAmount
         }
       }
       this.actor.update({
-        "data.pools.might.value": this.actor.data.data.pools.might.max - lastingDamage
+        "data.pools.might.value": this.actor.system.pools.might.max - lastingDamage
       })
     });
 
     // Increase Speed
     html.find('.increase-speed').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.pools.speed.value + amount;
+      let newValue = this.actor.system.pools.speed.value + amount;
       this.actor.update({ "data.pools.speed.value": newValue });
     });
 
     // Decrease Speed
     html.find('.decrease-speed').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.pools.speed.value - amount;
+      let newValue = this.actor.system.pools.speed.value - amount;
       this.actor.update({ "data.pools.speed.value": newValue });
     });
 
@@ -237,26 +235,26 @@ export class CypherActorSheetPC extends CypherActorSheet {
     html.find('.reset-speed').click(clickEvent => {
       let lastingDamage = 0;
       for (let item of this.actor.items) {
-        if (item.data.type == "lasting Damage" && item.data.data.lastingDamagePool == "Speed" && !item.data.data.archived) {
-          lastingDamage = lastingDamage + item.data.data.lastingDamageAmount
+        if (item.data.type == "lasting Damage" && item.system.lastingDamagePool == "Speed" && !item.system.archived) {
+          lastingDamage = lastingDamage + item.system.lastingDamageAmount
         }
       }
       this.actor.update({
-        "data.pools.speed.value": this.actor.data.data.pools.speed.max - lastingDamage
+        "data.pools.speed.value": this.actor.system.pools.speed.max - lastingDamage
       })
     });
 
     // Increase Intellect
     html.find('.increase-intellect').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.pools.intellect.value + amount;
+      let newValue = this.actor.system.pools.intellect.value + amount;
       this.actor.update({ "data.pools.intellect.value": newValue });
     });
 
     // Decrease Intellect
     html.find('.decrease-intellect').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.pools.intellect.value - amount;
+      let newValue = this.actor.system.pools.intellect.value - amount;
       this.actor.update({ "data.pools.intellect.value": newValue });
     });
 
@@ -264,33 +262,33 @@ export class CypherActorSheetPC extends CypherActorSheet {
     html.find('.reset-intellect').click(clickEvent => {
       let lastingDamage = 0;
       for (let item of this.actor.items) {
-        if (item.data.type == "lasting Damage" && item.data.data.lastingDamagePool == "Intellect" && !item.data.data.archived) {
-          lastingDamage = lastingDamage + item.data.data.lastingDamageAmount
+        if (item.data.type == "lasting Damage" && item.system.lastingDamagePool == "Intellect" && !item.system.archived) {
+          lastingDamage = lastingDamage + item.system.lastingDamageAmount
         }
       }
       this.actor.update({
-        "data.pools.intellect.value": this.actor.data.data.pools.intellect.max - lastingDamage
+        "data.pools.intellect.value": this.actor.system.pools.intellect.max - lastingDamage
       })
     });
 
     // Increase Additional
     html.find('.increase-additional').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.pools.additional.value + amount;
+      let newValue = this.actor.system.pools.additional.value + amount;
       this.actor.update({ "data.pools.additional.value": newValue });
     });
 
     // Decrease Additional
     html.find('.decrease-additional').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.pools.additional.value - amount;
+      let newValue = this.actor.system.pools.additional.value - amount;
       this.actor.update({ "data.pools.additional.value": newValue });
     });
 
     // Reset Additional Pool
     html.find('.reset-additionalPool').click(clickEvent => {
       this.actor.update({
-        "data.pools.additional.value": this.actor.data.data.pools.additional.max
+        "data.pools.additional.value": this.actor.system.pools.additional.max
       })
     });
 
@@ -300,14 +298,14 @@ export class CypherActorSheetPC extends CypherActorSheet {
     // Increase Teen Might
     html.find('.increase-teen-might').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.teen.pools.might.value + amount;
+      let newValue = this.actor.system.teen.pools.might.value + amount;
       this.actor.update({ "data.teen.pools.might.value": newValue });
     });
 
     // Decrease Teen Might
     html.find('.decrease-teen-might').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.teen.pools.might.value - amount;
+      let newValue = this.actor.system.teen.pools.might.value - amount;
       this.actor.update({ "data.teen.pools.might.value": newValue });
     });
 
@@ -315,26 +313,26 @@ export class CypherActorSheetPC extends CypherActorSheet {
     html.find('.reset-teen-might').click(clickEvent => {
       let lastingDamage = 0;
       for (let item of this.actor.items) {
-        if (item.data.type == "teen lasting Damage" && item.data.data.lastingDamagePool == "Might" && !item.data.data.archived) {
-          lastingDamage = lastingDamage + item.data.data.lastingDamageAmount
+        if (item.data.type == "teen lasting Damage" && item.system.lastingDamagePool == "Might" && !item.system.archived) {
+          lastingDamage = lastingDamage + item.system.lastingDamageAmount
         }
       }
       this.actor.update({
-        "data.teen.pools.might.value": this.actor.data.data.teen.pools.might.max - lastingDamage
+        "data.teen.pools.might.value": this.actor.system.teen.pools.might.max - lastingDamage
       })
     });
 
     // Increase Teen Speed
     html.find('.increase-teen-speed').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.teen.pools.speed.value + amount;
+      let newValue = this.actor.system.teen.pools.speed.value + amount;
       this.actor.update({ "data.teen.pools.speed.value": newValue });
     });
 
     // Decrease Teen Speed
     html.find('.decrease-teen-speed').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.teen.pools.speed.value - amount;
+      let newValue = this.actor.system.teen.pools.speed.value - amount;
       this.actor.update({ "data.teen.pools.speed.value": newValue });
     });
 
@@ -342,26 +340,26 @@ export class CypherActorSheetPC extends CypherActorSheet {
     html.find('.reset-teen-speed').click(clickEvent => {
       let lastingDamage = 0;
       for (let item of this.actor.items) {
-        if (item.data.type == "teen lasting Damage" && item.data.data.lastingDamagePool == "Speed" && !item.data.data.archived) {
-          lastingDamage = lastingDamage + item.data.data.lastingDamageAmount
+        if (item.system.type == "teen lasting Damage" && item.system.lastingDamagePool == "Speed" && !item.system.archived) {
+          lastingDamage = lastingDamage + item.system.lastingDamageAmount
         }
       }
       this.actor.update({
-        "data.teen.pools.speed.value": this.actor.data.data.teen.pools.speed.max - lastingDamage
+        "data.teen.pools.speed.value": this.actor.system.teen.pools.speed.max - lastingDamage
       })
     });
 
     // Increase Teen Intellect
     html.find('.increase-teen-intellect').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.teen.pools.intellect.value + amount;
+      let newValue = this.actor.system.teen.pools.intellect.value + amount;
       this.actor.update({ "data.teen.pools.intellect.value": newValue });
     });
 
     // Decrease Teen Intellect
     html.find('.decrease-teen-intellect').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.teen.pools.intellect.value - amount;
+      let newValue = this.actor.system.teen.pools.intellect.value - amount;
       this.actor.update({ "data.teen.pools.intellect.value": newValue });
     });
 
@@ -369,33 +367,33 @@ export class CypherActorSheetPC extends CypherActorSheet {
     html.find('.reset-teen-intellect').click(clickEvent => {
       let lastingDamage = 0;
       for (let item of this.actor.items) {
-        if (item.data.type == "teen lasting Damage" && item.data.data.lastingDamagePool == "Intellect" && !item.data.data.archived) {
-          lastingDamage = lastingDamage + item.data.data.lastingDamageAmount
+        if (item.system.type == "teen lasting Damage" && item.system.lastingDamagePool == "Intellect" && !item.system.archived) {
+          lastingDamage = lastingDamage + item.system.lastingDamageAmount
         }
       }
       this.actor.update({
-        "data.teen.pools.intellect.value": this.actor.data.data.teen.pools.intellect.max - lastingDamage
+        "data.teen.pools.intellect.value": this.actor.system.teen.pools.intellect.max - lastingDamage
       })
     });
 
     // Increase Teen Additional
     html.find('.increase-teen-additional').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.teen.pools.additional.value + amount;
+      let newValue = this.actor.system.teen.pools.additional.value + amount;
       this.actor.update({ "data.teen.pools.additional.value": newValue });
     });
 
     // Decrease Teen Additional
     html.find('.decrease-teen-additional').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.teen.pools.additional.value - amount;
+      let newValue = this.actor.system.teen.pools.additional.value - amount;
       this.actor.update({ "data.teen.pools.additional.value": newValue });
     });
 
     // Reset Additional Teen Pool
     html.find('.reset-teen-additionalPool').click(clickEvent => {
       this.actor.update({
-        "data.teen.pools.additional.value": this.actor.data.data.teen.pools.additional.max
+        "data.teen.pools.additional.value": this.actor.system.teen.pools.additional.max
       })
     });
 
@@ -467,15 +465,15 @@ export class CypherActorSheetPC extends CypherActorSheet {
     // Increase XP
     html.find('.increase-xp').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.basic.xp + amount;
-      this.actor.update({ "data.basic.xp": newValue });
+      let newValue = this.actor.basic.xp + amount;
+      this.actor.update({ "basic.xp": newValue });
     });
 
     // Decrease XP
     html.find('.decrease-xp').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.basic.xp - amount;
-      this.actor.update({ "data.basic.xp": newValue });
+      let newValue = this.actor.system.basic.xp - amount;
+      this.actor.update({ "system.basic.xp": newValue });
     });
 
     // Reset Advancements

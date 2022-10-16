@@ -1,4 +1,4 @@
-{{#each actor.abilitiesFour as |item id|}}
+{{#each actor.system..abilitiesFour as |item id|}}
 <li class="item flexrow {{#if archived}}archived{{/if}}" data-item-id="{{item._id}}">
   <h4 class="item-name">
     <a class="item-control item-description" title="{{localize 'CYPHERSYSTEM.ShowDescription'}}">

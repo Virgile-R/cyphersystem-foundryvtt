@@ -5,6 +5,7 @@ import {
 } from "./chat-cards.js";
 
 export async function payPoolPoints(actor, costCalculated, pool, teen) {
+  console.log('actor', actor)
   // Determine stats
   let mightValue = (teen) ? actor.data.data.teen.pools.might.value : actor.data.data.pools.might.value;
   let mightEdge = (teen) ? actor.data.data.teen.pools.mightEdge : actor.data.data.pools.mightEdge;

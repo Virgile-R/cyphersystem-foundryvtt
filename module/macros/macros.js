@@ -362,6 +362,7 @@ export async function removeBarBrawlSettings(tokens) {
 }
 
 export function quickStatChange(token, stat, modifier) {
+  console.log('token', token)
   // Make sure stat is case-insensitive
   stat = stat.toLowerCase();
 

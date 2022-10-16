@@ -18,7 +18,7 @@
     {{#if (eq settings.gameMode.currentSheet "Teen")}}
     {{> systems/cyphersystem/templates/tabs/teenAttacks.html}}
     {{else}}
-    {{#each actor.attacks as |item id|}}
+    {{#each actor.system.attacks as |item id|}}
     <li class="item flexrow {{#if archived}}archived{{/if}}" data-item-id="{{item._id}}">
       <h4 class="item-name">
         <a class="item-control item-description" title="{{localize 'CYPHERSYSTEM.ShowDescription'}}">

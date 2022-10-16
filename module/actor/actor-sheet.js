@@ -57,7 +57,8 @@ export class CypherActorSheet extends ActorSheet {
   * @return {undefined}
   */
   cyphersystem(data) {
-    const actorData = data.actor.data;
+    console.log('data in cypher', data)
+    const actorData = data.actor.system;
 
     // Initialize containers
     const equipment = [];
@@ -94,7 +95,7 @@ export class CypherActorSheet extends ActorSheet {
 
       // Check for hidden item
       let hidden = false;
-      if (actorData.data.settings.hideArchived && i.data.archived) hidden = true;
+      if (actorData.settings.hideArchived && i.data.archived) hidden = true;
 
       // Check for roll button on level
       if (i.type == "cypher" || i.type == "artifact") {
@@ -216,7 +217,7 @@ export class CypherActorSheet extends ActorSheet {
 
     // Sort by skill rating
     if (actorData.type == "PC" || actorData.type == "Companion") {
-      if (actorData.data.settings.skills.sortByRating) {
+      if (actorData.settings.skills.sortByRating) {
         skills.sort(bySkillRating);
         skillsTwo.sort(bySkillRating);
         skillsThree.sort(bySkillRating);
@@ -388,7 +389,7 @@ export class CypherActorSheet extends ActorSheet {
       const item = duplicate(this.actor.items.get(shownItem.data("itemId")));
 
       if (game.user.isGM) {
-        item.data.identified = true;
+        item.system.identified = true;
         this.actor.updateEmbeddedDocuments("Item", [item]);
       } else {
         ChatMessage.create({
@@ -407,11 +408,11 @@ export class CypherActorSheet extends ActorSheet {
       } else {
         const item = duplicate(this.actor.getEmbeddedDocument("Item", deletedItem.data("itemId")));
 
-        if (item.data.archived === true) {
-          item.data.archived = false;
+        if (item.system.archived === true) {
+          item.system.archived = false;
         }
         else {
-          item.data.archived = true;
+          item.system.archived = true;
         }
         this.actor.updateEmbeddedDocuments("Item", [item]);
       }
@@ -436,7 +437,7 @@ export class CypherActorSheet extends ActorSheet {
       const shownItem = $(clickEvent.currentTarget).parents(".item");
       const item = duplicate(this.actor.items.get(shownItem.data("itemId")));
       let amount = (event.altKey) ? 10 : 1;
-      item.data.quantity = item.data.quantity + amount;
+      item.system.quantity = item.system.quantity + amount;
       this.actor.updateEmbeddedDocuments("Item", [item]);
     });
 
@@ -445,7 +446,7 @@ export class CypherActorSheet extends ActorSheet {
       const shownItem = $(clickEvent.currentTarget).parents(".item");
       const item = duplicate(this.actor.items.get(shownItem.data("itemId")));
       let amount = (event.altKey) ? 10 : 1;
-      item.data.quantity = item.data.quantity - amount;
+      item.system.quantity = item.system.quantity - amount;
       this.actor.updateEmbeddedDocuments("Item", [item]);
     });
 
@@ -453,12 +454,12 @@ export class CypherActorSheet extends ActorSheet {
     html.find('.rollForLevel').click(async clickEvent => {
       const shownItem = $(clickEvent.currentTarget).parents(".item");
       const item = duplicate(this.actor.items.get(shownItem.data("itemId")));
-      let roll = await new Roll(item.data.level).evaluate({ async: false });
+      let roll = await new Roll(item.system.level).evaluate({ async: false });
       roll.toMessage({
         speaker: ChatMessage.getSpeaker(),
         flavor: game.i18n.format("CYPHERSYSTEM.RollForLevel", { item: item.name })
       });
-      item.data.level = roll.total;
+      item.system.level = roll.total;
       await this.actor.updateEmbeddedDocuments("Item", [item]);
     });
 
@@ -511,36 +512,36 @@ export class CypherActorSheet extends ActorSheet {
       if (event.altKey) {
         const shownItem = $(clickEvent.currentTarget).parents(".item");
         const item = duplicate(this.actor.items.get(shownItem.data("itemId")));
-        if (item.data.identified === false) return ui.notifications.warn(game.i18n.localize("CYPHERSYSTEM.WarnSentUnidentifiedToChat"));
+        if (item.system.identified === false) return ui.notifications.warn(game.i18n.localize("CYPHERSYSTEM.WarnSentUnidentifiedToChat"));
         let message = "";
         let brackets = "";
-        let description = "<hr style='margin:3px 0;'><img class='description-image-chat' src='" + item.img + "' width='50' height='50'/>" + item.data.description;
+        let description = "<hr style='margin:3px 0;'><img class='description-image-chat' src='" + item.img + "' width='50' height='50'/>" + item.system.description;
         let points = "";
         let notes = "";
         let name = item.name;
-        if (item.data.notes != "") notes = ", " + item.data.notes;
+        if (item.system.notes != "") notes = ", " + item.system.notes;
         if (item.type == "skill" || item.type == "teen Skill") {
-          brackets = " (" + item.data.skillLevel + ")";
+          brackets = " (" + item.system.skillLevel + ")";
         } else if (item.type == "power Shift") {
-          brackets = " (" + item.data.powerShiftValue + " " + game.i18n.localize("CYPHERSYSTEM.Shifts") + ")";
+          brackets = " (" + item.system.powerShiftValue + " " + game.i18n.localize("CYPHERSYSTEM.Shifts") + ")";
         } else if (item.type == "ability" || item.type == "teen Ability") {
-          points = (item.data.costPoints == "1") ? " " + game.i18n.localize("CYPHERSYSTEM.Point") : " " + game.i18n.localize("CYPHERSYSTEM.Points");
-          if (item.data.costPoints != 0 && item.data.costPoints != 0) brackets = " (" + item.data.costPoints + " " + item.data.costPool + points + ")";
+          points = (item.system.costPoints == "1") ? " " + game.i18n.localize("CYPHERSYSTEM.Point") : " " + game.i18n.localize("CYPHERSYSTEM.Points");
+          if (item.system.costPoints != 0 && item.system.costPoints != 0) brackets = " (" + item.system.costPoints + " " + item.system.costPool + points + ")";
         } else if (item.type == "attack") {
-          points = (item.data.damage == 1) ? " " + game.i18n.localize("CYPHERSYSTEM.PointOfDamage") : " " + game.i18n.localize("CYPHERSYSTEM.PointsOfDamage");
-          let damage = ", " + item.data.damage + " " + points;
-          let attackType = item.data.attackType;
+          points = (item.system.damage == 1) ? " " + game.i18n.localize("CYPHERSYSTEM.PointOfDamage") : " " + game.i18n.localize("CYPHERSYSTEM.PointsOfDamage");
+          let damage = ", " + item.system.damage + " " + points;
+          let attackType = item.system.attackType;
           let range = "";
-          if (item.data.range != "") range = ", " + item.data.range;
+          if (item.system.range != "") range = ", " + item.system.range;
           brackets = " (" + attackType + damage + range + notes + ")";
         } else if (item.type == "armor" || item.type == "teen Armor") {
-          brackets = " (" + item.data.armorType + notes + ")";
+          brackets = " (" + item.system.armorType + notes + ")";
         } else if (item.type == "lasting Damage") {
           let permanent = "";
-          if (item.data.damageType == "Permanent") permanent = ", " + game.i18n.localize("CYPHERSYSTEM.permanent");
-          brackets = " (" + item.data.lastingDamagePool + permanent + ")";
+          if (item.system.damageType == "Permanent") permanent = ", " + game.i18n.localize("CYPHERSYSTEM.permanent");
+          brackets = " (" + item.system.lastingDamagePool + permanent + ")";
         } else {
-          if (item.data.level != "") brackets = " (" + game.i18n.localize("CYPHERSYSTEM.level") + " " + item.data.level + ")";
+          if (item.system.level != "") brackets = " (" + game.i18n.localize("CYPHERSYSTEM.level") + " " + item.system.level + ")";
         }
         message = "<b>" + item.type.capitalize() + ": " + name + "</b>" + brackets + description;
         ChatMessage.create({
@@ -572,21 +573,21 @@ export class CypherActorSheet extends ActorSheet {
     // Increase Health
     html.find('.increase-health').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.health.value + amount;
+      let newValue = this.actor.data.health.value + amount;
       this.actor.update({ "data.health.value": newValue });
     });
 
     // Decrease Health
     html.find('.decrease-health').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.health.value - amount;
+      let newValue = this.actor.data.health.value - amount;
       this.actor.update({ "data.health.value": newValue });
     });
 
     // Reset Health
     html.find('.reset-health').click(clickEvent => {
       this.actor.update({
-        "data.health.value": this.actor.data.data.health.max
+        "data.health.value": this.actor.data.health.max
       })
     });
   }
@@ -602,7 +603,7 @@ export class CypherActorSheet extends ActorSheet {
     event.preventDefault();
     // if (!this.actor.owner) return false;
     const item = await Item.fromDropData(data);
-    const itemData = duplicate(item.data);
+    const itemData = duplicate(item.system);
 
     // Handle item sorting within the same Actor
     const actor = this.actor;
@@ -617,18 +618,18 @@ export class CypherActorSheet extends ActorSheet {
       originActor = canvas.tokens.get(data.tokenId).actor;
     }
     let originItem;
-    if (originActor) { originItem = originActor.items.find(i => i.data._id === item.data._id) };
+    if (originActor) { originItem = originActor.items.find(i => i.data._id === item.system._id) };
 
     // Create the owned item or increase quantity
     let itemOwned = false;
 
     if (!(itemData.type == "artifact" || itemData.type == "cypher" || itemData.type == "oddity")) {
-      itemOwned = actor.items.find(i => i.data.name === item.data.name && i.data.type === item.data.type);
+      itemOwned = actor.items.find(i => i.data.name === item.system.name && i.data.type === item.system.type);
     }
 
     let hasQuantity = false;
 
-    if ("quantity" in item.data.data) hasQuantity = true;
+    if ("quantity" in item.system.data) hasQuantity = true;
 
     // Activate settings for items
     if (itemData.type == "artifact") actor.update({ "data.settings.equipment.artifacts": true });
@@ -697,7 +698,7 @@ export class CypherActorSheet extends ActorSheet {
       }
     } else if (hasQuantity) {
       if (!event.altKey) {
-        let maxQuantity = item.data.data.quantity;
+        let maxQuantity = item.system.data.quantity;
         if (maxQuantity <= 0 && maxQuantity != null) return ui.notifications.warn(game.i18n.localize("CYPHERSYSTEM.CannotMoveNotOwnedItem"));
         let quantity = 1;
         moveDialog(quantity, itemData);
@@ -757,12 +758,12 @@ export class CypherActorSheet extends ActorSheet {
 
         function moveItems(quantity, itemData) {
           quantity = parseInt(quantity);
-          if (item.data.data.quantity != null && (quantity > item.data.data.quantity || quantity <= 0)) {
+          if (item.system.data.quantity != null && (quantity > item.system.data.quantity || quantity <= 0)) {
             moveDialog(quantity, itemData);
-            return ui.notifications.warn(game.i18n.format("CYPHERSYSTEM.CanOnlyMoveCertainAmountOfItems", { max: item.data.data.quantity }));
+            return ui.notifications.warn(game.i18n.format("CYPHERSYSTEM.CanOnlyMoveCertainAmountOfItems", { max: item.system.data.quantity }));
           }
-          if (item.data.data.quantity && originActor) {
-            let oldQuantity = item.data.data.quantity - parseInt(quantity);
+          if (item.system.data.quantity && originActor) {
+            let oldQuantity = item.system.data.quantity - parseInt(quantity);
             originItem.update({ "data.quantity": oldQuantity });
           }
           if (!itemOwned) {
@@ -775,12 +776,12 @@ export class CypherActorSheet extends ActorSheet {
         }
       } else if (event.altKey) {
         if (!itemOwned) {
-          if (!item.data.data.quantity) {
+          if (!item.system.data.quantity) {
             itemData.data.quantity = 0;
           }
           this._onDropItemCreate(itemData);
         } else {
-          let newQuantity = itemOwned.data.data.quantity + item.data.data.quantity;
+          let newQuantity = itemOwned.data.data.quantity + item.system.data.quantity;
           itemOwned.update({ "data.quantity": newQuantity });
         }
       }

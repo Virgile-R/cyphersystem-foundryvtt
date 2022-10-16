@@ -24,6 +24,7 @@ export class CypherActorSheetNPC extends CypherActorSheet {
   */
   getData() {
     const data = super.getData();
+    console.log('data in NPC sheets', data)
     const actorData = data.actor.data.system;
     data.rollButtons = false;
 

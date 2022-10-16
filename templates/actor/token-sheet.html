@@ -39,9 +39,9 @@
                   {{/unless}}
                 </div>
                 <div class="resource-content flexrow flex-center stat-pool {{#if (or isLimited isObserver)}}disabled{{/if}}">
-                  <input class="stat-input" name="quantity.value" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{quantity.value}}{{/if}}" data-dtype="Number" />
+                  <input class="stat-input" name="system.quantity.value" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{quantity.value}}{{/if}}" data-dtype="Number" />
                   &nbsp;{{slashForFractions}}&nbsp;
-                  <input class="stat-input" name="quantity.max" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{quantity.max}}{{/if}}" data-dtype="Number" />
+                  <input class="stat-input" name="system.quantity.max" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{quantity.max}}{{/if}}" data-dtype="Number" />
                 </div>
               </div>
             </div>

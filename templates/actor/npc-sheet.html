@@ -36,9 +36,9 @@
                   {{/unless}}
                 </div>
                 <div class="resource-content flexrow flex-center stat-pool {{#if (or isLimited isObserver)}}disabled{{/if}}">
-                  <input class="stat-input" name="health.value" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{health.value}}{{/if}}" data-dtype="Number" />
+                  <input class="stat-input" name="system.health.value" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{health.value}}{{/if}}" data-dtype="Number" />
                   &nbsp;{{slashForFractions}}&nbsp;
-                  <input class="stat-input" name="health.max" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{health.max}}{{/if}}" data-dtype="Number" />
+                  <input class="stat-input" name="system.health.max" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{health.max}}{{/if}}" data-dtype="Number" />
                 </div>
               </div>
               <div class="resource flex-group-center">
@@ -82,12 +82,12 @@
 
     {{!-- Notes Tab --}}
     <div class="tab biography" data-group="primary" data-tab="notes">
-      {{editor content=biography target="biography" button=true owner=owner editable=true}}
+      {{editor content=biography target="data.biography" button=true owner=owner editable=true}}
     </div>
 
     {{!-- Description Tab --}}
     <div class="tab biography" data-group="primary" data-tab="description">
-      {{editor content=description target="description" button=true owner=owner editable=true}}
+      {{editor content=description target="data.description" button=true owner=owner editable=true}}
     </div>
 
     {{!-- Owned Items Tab --}}

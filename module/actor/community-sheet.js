@@ -30,21 +30,21 @@ export class CypherActorSheetCommunity extends CypherActorSheet {
     // Increase Infrastructure
     html.find('.increase-infrastructure').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.infrastructure.value + amount;
+      let newValue = this.actor.system.infrastructure.value + amount;
       this.actor.update({ "data.infrastructure.value": newValue });
     });
 
     // Decrease Infrastructure
     html.find('.decrease-infrastructure').click(clickEvent => {
       let amount = (event.altKey) ? 10 : 1;
-      let newValue = this.actor.data.data.infrastructure.value - amount;
+      let newValue = this.actor.system.infrastructure.value - amount;
       this.actor.update({ "data.infrastructure.value": newValue });
     });
 
     // Reset Infrastructure
     html.find('.reset-infrastructure').click(clickEvent => {
       this.actor.update({
-        "data.infrastructure.value": this.actor.data.data.infrastructure.max
+        "data.infrastructure.value": this.actor.system.infrastructure.max
       })
     });
   }

@@ -35,9 +35,9 @@
                   {{/unless}}
                 </div>
                 <div class="resource-content flexrow flex-center stat-pool {{#if (or isLimited isObserver)}}disabled{{/if}}">
-                  <input class="stat-input" name="health.value" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{health.value}}{{/if}}" data-dtype="Number" />
+                  <input class="stat-input" name="system.health.value" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{health.value}}{{/if}}" data-dtype="Number" />
                   &nbsp;{{slashForFractions}}&nbsp;
-                  <input class="stat-input" name="health.max" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{health.max}}{{/if}}" data-dtype="Number" />
+                  <input class="stat-input" name="system.health.max" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{health.max}}{{/if}}" data-dtype="Number" />
                 </div>
               </div>
               <div class="resource flex-group-center">
@@ -60,9 +60,9 @@
                   {{/unless}}
                 </div>
                 <div class="resource-content flexrow flex-center stat-pool {{#if (or isLimited isObserver)}}disabled{{/if}}">
-                  <input class="stat-input" name="infrastructure.value" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{infrastructure.value}}{{/if}}" data-dtype="Number" />
+                  <input class="stat-input" name="system.infrastructure.value" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{infrastructure.value}}{{/if}}" data-dtype="Number" />
                   &nbsp;{{slashForFractions}}&nbsp;
-                  <input class="stat-input" name="infrastructure.max" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{infrastructure.max}}{{/if}}" data-dtype="Number" />
+                  <input class="stat-input" name="system.nfrastructure.max" type="text" value="{{#if isLimited}}{{localize 'CYPHERSYSTEM.?'}}{{else}}{{infrastructure.max}}{{/if}}" data-dtype="Number" />
                 </div>
               </div>
               <div class="resource flex-group-center">
